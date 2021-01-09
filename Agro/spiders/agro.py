@@ -3,13 +3,9 @@ import scrapy, csv, json
 
 class AgroSpider(scrapy.Spider):
     name = "Agro"
-
-    start_urls = [
-            'https://agro.gov.kg/language/ru/main',
-        ]
-     
     page_incr = 1
     parse_urls = []
+    start_urls = ['https://agro.gov.kg/language/ru/main',]
     pagination_url = 'https://agro.gov.kg/wp-admin/admin-ajax.php'
 
     def parse(self, response):
@@ -46,20 +42,21 @@ class AgroSpider(scrapy.Spider):
             yield scrapy.http.FormRequest(url=self.pagination_url, formdata=formdata, callback=self.parse)
         else:
             for url in self.parse_urls:
-                print(url)
+                yield scrapy.Request(url=url, callback=self.parse_item)
 
     def parse_item(self, response):
-        print(response.body)
-        # title = response.css("h1.post-title a::text").getall()
-        # description = response.css("div.entry-content::text").getall()
-        # image = response.css("img.attachment-full::attr(src)").getall()
-        # print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-        # print(title)
-        # print("\n\n\n")
-        # print(description)
-        # print("\n\n\n")
-        # print(image)
-        # print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        titles = response.css("h1.post-title::text").getall()
+        descriptions = response.css("div.entry-content p::text").getall()
+        public_times = response.css("span.date span::text").get()
+        images = response.css("img.attachment-full::attr(data-src)").getall()
+
+        yield {
+            'titles': titles,
+            'descriptions': descriptions,
+            'times': public_times,
+            'image_urls': images,
+        }
+
 
 
 
