@@ -64,6 +64,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'Agro.pipelines.customImagePipline': 1,
+   'Agro.pipelines.customFilePipline': 1,
 }
 
 DOWNLOAD_TIMEOUT = 1200
@@ -71,6 +72,7 @@ DOWNLOAD_TIMEOUT = 1200
 MEDIA_ALLOW_REDIRECTS = True
 
 IMAGES_STORE = 'images'
+FILES_STORE = 'files'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
