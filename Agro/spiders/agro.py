@@ -46,7 +46,7 @@ class AgroSpider(scrapy.Spider):
 
     def parse_item(self, response):
         titles = response.css("h1.post-title::text").getall()
-        descriptions = response.css("div.entry-content p::text").getall()
+        descriptions = response.css("div.entry-content *::text").getall()
         public_times = response.css("span.date span::text").get()
         images = response.css("img.attachment-full::attr(data-src)").getall()
 
