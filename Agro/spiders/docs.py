@@ -10,7 +10,7 @@ class DocsSpider(scrapy.Spider):
         titles = response.css("p.bfd-download-title strong::text").getall()
 
         subtitles = ''.join(response.css("p.bfd-bottom-zero small::text").getall())
-        t_formats = re.findall(':(\W|)(docx|pdf|doc|rar)', subtitles)
+        t_formats = re.findall(r':(\W|)(docx|pdf|doc|rar)', subtitles)
         formats = list(map(lambda x: x[-1], t_formats))
         
         yield {
